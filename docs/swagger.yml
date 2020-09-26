@@ -1,10 +1,9 @@
 swagger: "2.0"
 info:
-  title: Piggy Breaker
+  title: Godemo
   version: "0.0.1"
   description: |
-    Piggy Breaker is a game built on blockchain technology.
-    You can securely play with Ether to get a chance to break the piggy!
+    Godemo is a Golang code demo.
 produces:
   - application/json
 consumes:
@@ -12,7 +11,7 @@ consumes:
 schemes:
   - http
 
-basePath: /api
+basePath: /
 
 paths:
   # Homepage
@@ -34,7 +33,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
   # Network
-  /network/blockNumber:
+  /network/block-number:
     get:
       tags:
         - Network

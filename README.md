@@ -1,5 +1,13 @@
 # Godemo
 
+## Run project
+
+To run the project, execute:
+
+```
+go run cmd/godemo-server/main.go --host 0.0.0.0 --port 8080
+```
+
 ## Generate API
 
 ### Update and regenerate API

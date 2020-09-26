@@ -41,11 +41,11 @@ func (o *GetBlockNumberURL) SetBasePath(bp string) {
 func (o *GetBlockNumberURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/network/blockNumber"
+	var _path = "/network/block-number"
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/api"
+		_basePath = "/"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
 

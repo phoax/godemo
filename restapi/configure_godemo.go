@@ -15,13 +15,13 @@ import (
 	"github.com/phoax/godemo/restapi/operations/network"
 )
 
-//go:generate swagger generate server --target ../../godemo --name PiggyBreaker --spec ../docs/swagger.yml --principal interface{}
+//go:generate swagger generate server --target ../../godemo --name Godemo --spec ../docs/swagger.yml --principal interface{}
 
-func configureFlags(api *operations.PiggyBreakerAPI) {
+func configureFlags(api *operations.GodemoAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
 
-func configureAPI(api *operations.PiggyBreakerAPI) http.Handler {
+func configureAPI(api *operations.GodemoAPI) http.Handler {
 	// configure the api here
 	api.ServeError = errors.ServeError
 

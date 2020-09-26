@@ -22,13 +22,13 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	api := operations.NewPiggyBreakerAPI(swaggerSpec)
+	api := operations.NewGodemoAPI(swaggerSpec)
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 
 	parser := flags.NewParser(server, flags.Default)
-	parser.ShortDescription = "Piggy Breaker"
-	parser.LongDescription = "Piggy Breaker is a game built on blockchain technology.\nYou can securely play with Ether to get a chance to break the piggy!\n"
+	parser.ShortDescription = "Godemo"
+	parser.LongDescription = "Godemo is a Golang code demo.\n"
 	server.ConfigureFlags()
 	for _, optsGroup := range api.CommandLineOptionsGroups {
 		_, err := parser.AddGroup(optsGroup.ShortDescription, optsGroup.LongDescription, optsGroup.Options)

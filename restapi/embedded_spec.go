@@ -29,11 +29,11 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Piggy Breaker is a game built on blockchain technology.\nYou can securely play with Ether to get a chance to break the piggy!\n",
-    "title": "Piggy Breaker",
+    "description": "Godemo is a Golang code demo.\n",
+    "title": "Godemo",
     "version": "0.0.1"
   },
-  "basePath": "/api",
+  "basePath": "/",
   "paths": {
     "/": {
       "get": {
@@ -61,7 +61,7 @@ func init() {
         }
       }
     },
-    "/network/blockNumber": {
+    "/network/block-number": {
       "get": {
         "description": "\u003cb\u003eGet blockchain block number\u003c/b\u003e",
         "tags": [
@@ -153,11 +153,11 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Piggy Breaker is a game built on blockchain technology.\nYou can securely play with Ether to get a chance to break the piggy!\n",
-    "title": "Piggy Breaker",
+    "description": "Godemo is a Golang code demo.\n",
+    "title": "Godemo",
     "version": "0.0.1"
   },
-  "basePath": "/api",
+  "basePath": "/",
   "paths": {
     "/": {
       "get": {
@@ -185,7 +185,7 @@ func init() {
         }
       }
     },
-    "/network/blockNumber": {
+    "/network/block-number": {
       "get": {
         "description": "\u003cb\u003eGet blockchain block number\u003c/b\u003e",
         "tags": [

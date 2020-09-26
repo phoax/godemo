@@ -29,7 +29,7 @@ func NewGetBlockNumber(ctx *middleware.Context, handler GetBlockNumberHandler) *
 	return &GetBlockNumber{Context: ctx, Handler: handler}
 }
 
-/*GetBlockNumber swagger:route GET /network/blockNumber Network getBlockNumber
+/*GetBlockNumber swagger:route GET /network/block-number Network getBlockNumber
 
 Get block number
 
