@@ -13,6 +13,8 @@ import (
 	"github.com/phoax/godemo/restapi/operations"
 	"github.com/phoax/godemo/restapi/operations/homepage"
 	"github.com/phoax/godemo/restapi/operations/network"
+
+	"github.com/phoax/godemo/internal/handlers"
 )
 
 //go:generate swagger generate server --target ../../godemo --name Godemo --spec ../docs/swagger.yml --principal interface{}
@@ -44,11 +46,10 @@ func configureAPI(api *operations.GodemoAPI) http.Handler {
 			return middleware.NotImplemented("operation network.GetBlockNumber has not yet been implemented")
 		})
 	}
-	if api.HomepageHomepageHandler == nil {
-		api.HomepageHomepageHandler = homepage.HomepageHandlerFunc(func(params homepage.HomepageParams) middleware.Responder {
-			return middleware.NotImplemented("operation homepage.Homepage has not yet been implemented")
-		})
-	}
+
+	api.HomepageHomepageHandler = homepage.HomepageHandlerFunc(func(params homepage.HomepageParams) middleware.Responder {
+		return handlers.HomepageHandler()
+	})
 
 	api.PreServerShutdown = func() {}
 
