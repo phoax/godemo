@@ -57,30 +57,6 @@ func (o *HomepageOK) WriteResponse(rw http.ResponseWriter, producer runtime.Prod
 	}
 }
 
-// HomepageCreatedCode is the HTTP code returned for type HomepageCreated
-const HomepageCreatedCode int = 201
-
-/*HomepageCreated Created
-
-swagger:response homepageCreated
-*/
-type HomepageCreated struct {
-}
-
-// NewHomepageCreated creates HomepageCreated with default headers values
-func NewHomepageCreated() *HomepageCreated {
-
-	return &HomepageCreated{}
-}
-
-// WriteResponse to the client
-func (o *HomepageCreated) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
-
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
-	rw.WriteHeader(201)
-}
-
 /*HomepageDefault user validation error
 
 swagger:response homepageDefault

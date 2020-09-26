@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 
 	"github.com/phoax/godemo/restapi/operations"
+	"github.com/phoax/godemo/restapi/operations/account"
 	"github.com/phoax/godemo/restapi/operations/homepage"
 	"github.com/phoax/godemo/restapi/operations/network"
 
@@ -42,14 +43,20 @@ func configureAPI(api *operations.GodemoAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.NetworkGetBlockNumberHandler == nil {
-		api.NetworkGetBlockNumberHandler = network.GetBlockNumberHandlerFunc(func(params network.GetBlockNumberParams) middleware.Responder {
-			return middleware.NotImplemented("operation network.GetBlockNumber has not yet been implemented")
-		})
-	}
+	api.NetworkGetBlockNumberHandler = network.GetBlockNumberHandlerFunc(func(params network.GetBlockNumberParams) middleware.Responder {
+		return handlers.BlockNumberHandler()
+	})
 
 	api.HomepageHomepageHandler = homepage.HomepageHandlerFunc(func(params homepage.HomepageParams) middleware.Responder {
 		return handlers.HomepageHandler()
+	})
+
+	api.AccountSetTransferHandler = account.SetTransferHandlerFunc(func(params account.SetTransferParams) middleware.Responder {
+		return handlers.AccountTransferHandler()
+	})
+
+	api.AccountGetAccountBalanceHandler = account.GetAccountBalanceHandlerFunc(func(params account.GetAccountBalanceParams) middleware.Responder {
+		return handlers.AccountBalanceHandler()
 	})
 
 	api.PreServerShutdown = func() {}

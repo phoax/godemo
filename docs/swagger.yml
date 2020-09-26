@@ -26,8 +26,6 @@ paths:
           description: homepage response
           schema:
             $ref: "#/definitions/Ack"
-        201:
-          description: Created
         default:
           description: user validation error
           schema:
@@ -40,15 +38,48 @@ paths:
       summary: Get block number
       operationId: getBlockNumber
       description: <b>Get blockchain block number</b>
-      parameters:
-        - in: query
-          name: id
-          required: true
-          description: Game id
-          type: integer
       responses:
         200:
-          description: Notify confirmation
+          description: block number
+          schema:
+            $ref: "#/definitions/NetworkBlockNumber"
+        default:
+          description: Internal error
+          schema:
+            $ref: "#/definitions/Error"
+  # Account
+  /account/transfer:
+    post:
+      tags:
+        - Account
+      summary: Set a transfer
+      operationId: setTransfer
+      description: <b>Set a transfer</b>
+      responses:
+        201:
+          description: transfer
+          schema:
+            $ref: "#/definitions/Ack"
+        default:
+          description: Internal error
+          schema:
+            $ref: "#/definitions/Error"
+  /account/balance/{address}:
+    get:
+      tags:
+        - Account
+      summary: Get account balance
+      operationId: getAccountBalance
+      description: <b>Get account balance</b>
+      parameters:
+        - name: "address"
+          in: "path"
+          description: "address to get balance"
+          required: true
+          type: string
+      responses:
+        201:
+          description: transfer
           schema:
             $ref: "#/definitions/Ack"
         default:
@@ -58,7 +89,7 @@ paths:
 
 definitions:
   # Network
-  NetworkBlocNumber:
+  NetworkBlockNumber:
     type: object
     description: BlockNumber
     properties:

@@ -16,7 +16,7 @@ import (
 // GetBlockNumberOKCode is the HTTP code returned for type GetBlockNumberOK
 const GetBlockNumberOKCode int = 200
 
-/*GetBlockNumberOK Notify confirmation
+/*GetBlockNumberOK block number
 
 swagger:response getBlockNumberOK
 */
@@ -25,7 +25,7 @@ type GetBlockNumberOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Ack `json:"body,omitempty"`
+	Payload *models.NetworkBlockNumber `json:"body,omitempty"`
 }
 
 // NewGetBlockNumberOK creates GetBlockNumberOK with default headers values
@@ -35,13 +35,13 @@ func NewGetBlockNumberOK() *GetBlockNumberOK {
 }
 
 // WithPayload adds the payload to the get block number o k response
-func (o *GetBlockNumberOK) WithPayload(payload *models.Ack) *GetBlockNumberOK {
+func (o *GetBlockNumberOK) WithPayload(payload *models.NetworkBlockNumber) *GetBlockNumberOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get block number o k response
-func (o *GetBlockNumberOK) SetPayload(payload *models.Ack) {
+func (o *GetBlockNumberOK) SetPayload(payload *models.NetworkBlockNumber) {
 	o.Payload = payload
 }
 
