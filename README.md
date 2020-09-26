@@ -2,6 +2,14 @@
 
 ## Run project
 
+To set environment config, execute:
+
+```
+go run cmd/env/main.go
+```
+
+It will create a .env file with config example values.
+
 To run the project, execute:
 
 ```

@@ -15,6 +15,7 @@ import (
 	"github.com/phoax/godemo/restapi/operations/network"
 
 	"github.com/phoax/godemo/internal/handlers"
+	"github.com/rs/cors"
 )
 
 //go:generate swagger generate server --target ../../godemo --name Godemo --spec ../docs/swagger.yml --principal interface{}
@@ -79,5 +80,9 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+	c := cors.New(cors.Options{
+		AllowedHeaders: []string{"*"}, //TODO(magicking) restrict headers list
+	})
+
+	return c.Handler(handler)
 }
