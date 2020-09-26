@@ -1,0 +1,92 @@
+swagger: "2.0"
+info:
+  title: Piggy Breaker
+  version: "0.0.1"
+  description: |
+    Piggy Breaker is a game built on blockchain technology.
+    You can securely play with Ether to get a chance to break the piggy!
+produces:
+  - application/json
+consumes:
+  - application/json
+schemes:
+  - http
+
+basePath: /api
+
+paths:
+  # Homepage
+  /:
+    get:
+      tags:
+        - Homepage
+      summary: Homepage
+      operationId: homepage
+      responses:
+        200:
+          description: homepage response
+          schema:
+            $ref: "#/definitions/Ack"
+        201:
+          description: Created
+        default:
+          description: user validation error
+          schema:
+            $ref: "#/definitions/Error"
+  # Network
+  /network/blockNumber:
+    get:
+      tags:
+        - Network
+      summary: Get block number
+      operationId: getBlockNumber
+      description: <b>Get blockchain block number</b>
+      parameters:
+        - in: query
+          name: id
+          required: true
+          description: Game id
+          type: integer
+      responses:
+        200:
+          description: Notify confirmation
+          schema:
+            $ref: "#/definitions/Ack"
+        default:
+          description: Internal error
+          schema:
+            $ref: "#/definitions/Error"
+
+definitions:
+  # Network
+  NetworkBlocNumber:
+    type: object
+    description: BlockNumber
+    properties:
+      blockNumber:
+        type: integer
+        description: <b>BlockNumber</b>
+
+  # Responses
+  Ack:
+    type: object
+    properties:
+      status:
+        type: string
+      message:
+        type: string
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+    required:
+      - code
+      - message
+  Principal:
+    type: string
