@@ -35,3 +35,21 @@ When generating swagger command, it the error `target must reside inside a locat
 ```
 go mod init github.com/phoax/godemo
 ```
+
+## Demo
+
+Make a transfer
+
+```
+curl --location --request POST 'localhost:8080/account/transfer' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "address": "0x940a7acD2A11846ba2F5Fc52f68EC69daFe8C550"
+}'
+```
+
+Get balance
+
+```
+curl --location --request GET 'localhost:8080/account/balance/0x940a7acD2A11846ba2F5Fc52f68EC69daFe8C550'
+```

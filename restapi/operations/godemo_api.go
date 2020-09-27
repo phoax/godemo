@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/phoax/godemo/restapi/operations/account"
 	"github.com/phoax/godemo/restapi/operations/homepage"
 	"github.com/phoax/godemo/restapi/operations/network"
 )
@@ -45,11 +46,17 @@ func NewGodemoAPI(spec *loads.Document) *GodemoAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		AccountGetAccountBalanceHandler: account.GetAccountBalanceHandlerFunc(func(params account.GetAccountBalanceParams) middleware.Responder {
+			return middleware.NotImplemented("operation account.GetAccountBalance has not yet been implemented")
+		}),
 		NetworkGetBlockNumberHandler: network.GetBlockNumberHandlerFunc(func(params network.GetBlockNumberParams) middleware.Responder {
 			return middleware.NotImplemented("operation network.GetBlockNumber has not yet been implemented")
 		}),
 		HomepageHomepageHandler: homepage.HomepageHandlerFunc(func(params homepage.HomepageParams) middleware.Responder {
 			return middleware.NotImplemented("operation homepage.Homepage has not yet been implemented")
+		}),
+		AccountSetTransferHandler: account.SetTransferHandlerFunc(func(params account.SetTransferParams) middleware.Responder {
+			return middleware.NotImplemented("operation account.SetTransfer has not yet been implemented")
 		}),
 	}
 }
@@ -86,10 +93,14 @@ type GodemoAPI struct {
 	//   - application/json
 	JSONProducer runtime.Producer
 
+	// AccountGetAccountBalanceHandler sets the operation handler for the get account balance operation
+	AccountGetAccountBalanceHandler account.GetAccountBalanceHandler
 	// NetworkGetBlockNumberHandler sets the operation handler for the get block number operation
 	NetworkGetBlockNumberHandler network.GetBlockNumberHandler
 	// HomepageHomepageHandler sets the operation handler for the homepage operation
 	HomepageHomepageHandler homepage.HomepageHandler
+	// AccountSetTransferHandler sets the operation handler for the set transfer operation
+	AccountSetTransferHandler account.SetTransferHandler
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
 	ServeError func(http.ResponseWriter, *http.Request, error)
@@ -166,11 +177,17 @@ func (o *GodemoAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.AccountGetAccountBalanceHandler == nil {
+		unregistered = append(unregistered, "account.GetAccountBalanceHandler")
+	}
 	if o.NetworkGetBlockNumberHandler == nil {
 		unregistered = append(unregistered, "network.GetBlockNumberHandler")
 	}
 	if o.HomepageHomepageHandler == nil {
 		unregistered = append(unregistered, "homepage.HomepageHandler")
+	}
+	if o.AccountSetTransferHandler == nil {
+		unregistered = append(unregistered, "account.SetTransferHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -263,11 +280,19 @@ func (o *GodemoAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/account/balance/{address}"] = account.NewGetAccountBalance(o.context, o.AccountGetAccountBalanceHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/network/block-number"] = network.NewGetBlockNumber(o.context, o.NetworkGetBlockNumberHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"][""] = homepage.NewHomepage(o.context, o.HomepageHomepageHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/account/transfer"] = account.NewSetTransfer(o.context, o.AccountSetTransferHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

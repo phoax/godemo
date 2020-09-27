@@ -3,6 +3,7 @@ module github.com/phoax/godemo
 go 1.15
 
 require (
+	github.com/ethereum/go-ethereum v1.9.21
 	github.com/go-openapi/errors v0.19.7
 	github.com/go-openapi/loads v0.19.5
 	github.com/go-openapi/runtime v0.19.22

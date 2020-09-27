@@ -49,11 +49,76 @@ func init() {
               "$ref": "#/definitions/Ack"
             }
           },
-          "201": {
-            "description": "Created"
-          },
           "default": {
             "description": "user validation error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/account/balance/{address}": {
+      "get": {
+        "description": "\u003cb\u003eGet account balance\u003c/b\u003e",
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get account balance",
+        "operationId": "getAccountBalance",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "address to get balance",
+            "name": "address",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "transfer",
+            "schema": {
+              "$ref": "#/definitions/Ack"
+            }
+          },
+          "default": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/account/transfer": {
+      "post": {
+        "description": "\u003cb\u003eSet a transfer\u003c/b\u003e",
+        "tags": [
+          "Account"
+        ],
+        "summary": "Set a transfer",
+        "operationId": "setTransfer",
+        "parameters": [
+          {
+            "description": "Transfer to address",
+            "name": "to",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/To"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "transfer",
+            "schema": {
+              "$ref": "#/definitions/Ack"
+            }
+          },
+          "default": {
+            "description": "Internal error",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -69,20 +134,11 @@ func init() {
         ],
         "summary": "Get block number",
         "operationId": "getBlockNumber",
-        "parameters": [
-          {
-            "type": "integer",
-            "description": "Game id",
-            "name": "id",
-            "in": "query",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Notify confirmation",
+            "description": "block number",
             "schema": {
-              "$ref": "#/definitions/Ack"
+              "$ref": "#/definitions/NetworkBlockNumber"
             }
           },
           "default": {
@@ -126,7 +182,7 @@ func init() {
         }
       }
     },
-    "NetworkBlocNumber": {
+    "NetworkBlockNumber": {
       "description": "BlockNumber",
       "type": "object",
       "properties": {
@@ -138,6 +194,16 @@ func init() {
     },
     "Principal": {
       "type": "string"
+    },
+    "To": {
+      "description": "To address",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "\u003cb\u003eaddress\u003c/b\u003e",
+          "type": "string"
+        }
+      }
     }
   }
 }`))
@@ -173,11 +239,76 @@ func init() {
               "$ref": "#/definitions/Ack"
             }
           },
-          "201": {
-            "description": "Created"
-          },
           "default": {
             "description": "user validation error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/account/balance/{address}": {
+      "get": {
+        "description": "\u003cb\u003eGet account balance\u003c/b\u003e",
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get account balance",
+        "operationId": "getAccountBalance",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "address to get balance",
+            "name": "address",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "transfer",
+            "schema": {
+              "$ref": "#/definitions/Ack"
+            }
+          },
+          "default": {
+            "description": "Internal error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/account/transfer": {
+      "post": {
+        "description": "\u003cb\u003eSet a transfer\u003c/b\u003e",
+        "tags": [
+          "Account"
+        ],
+        "summary": "Set a transfer",
+        "operationId": "setTransfer",
+        "parameters": [
+          {
+            "description": "Transfer to address",
+            "name": "to",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/To"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "transfer",
+            "schema": {
+              "$ref": "#/definitions/Ack"
+            }
+          },
+          "default": {
+            "description": "Internal error",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -193,20 +324,11 @@ func init() {
         ],
         "summary": "Get block number",
         "operationId": "getBlockNumber",
-        "parameters": [
-          {
-            "type": "integer",
-            "description": "Game id",
-            "name": "id",
-            "in": "query",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Notify confirmation",
+            "description": "block number",
             "schema": {
-              "$ref": "#/definitions/Ack"
+              "$ref": "#/definitions/NetworkBlockNumber"
             }
           },
           "default": {
@@ -250,7 +372,7 @@ func init() {
         }
       }
     },
-    "NetworkBlocNumber": {
+    "NetworkBlockNumber": {
       "description": "BlockNumber",
       "type": "object",
       "properties": {
@@ -262,6 +384,16 @@ func init() {
     },
     "Principal": {
       "type": "string"
+    },
+    "To": {
+      "description": "To address",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "\u003cb\u003eaddress\u003c/b\u003e",
+          "type": "string"
+        }
+      }
     }
   }
 }`))
