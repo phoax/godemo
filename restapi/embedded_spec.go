@@ -99,6 +99,17 @@ func init() {
         ],
         "summary": "Set a transfer",
         "operationId": "setTransfer",
+        "parameters": [
+          {
+            "description": "Transfer to address",
+            "name": "to",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/To"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "transfer",
@@ -183,6 +194,16 @@ func init() {
     },
     "Principal": {
       "type": "string"
+    },
+    "To": {
+      "description": "To address",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "\u003cb\u003eaddress\u003c/b\u003e",
+          "type": "string"
+        }
+      }
     }
   }
 }`))
@@ -268,6 +289,17 @@ func init() {
         ],
         "summary": "Set a transfer",
         "operationId": "setTransfer",
+        "parameters": [
+          {
+            "description": "Transfer to address",
+            "name": "to",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/To"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "transfer",
@@ -352,6 +384,16 @@ func init() {
     },
     "Principal": {
       "type": "string"
+    },
+    "To": {
+      "description": "To address",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "\u003cb\u003eaddress\u003c/b\u003e",
+          "type": "string"
+        }
+      }
     }
   }
 }`))

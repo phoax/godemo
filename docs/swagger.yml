@@ -55,6 +55,13 @@ paths:
       summary: Set a transfer
       operationId: setTransfer
       description: <b>Set a transfer</b>
+      parameters:
+        - in: "body"
+          name: "to"
+          description: "Transfer to address"
+          required: true
+          schema:
+            $ref: "#/definitions/To"
       responses:
         201:
           description: transfer
@@ -96,6 +103,13 @@ definitions:
       blockNumber:
         type: integer
         description: <b>BlockNumber</b>
+  To:
+    type: object
+    description: To address
+    properties:
+      address:
+        type: string
+        description: <b>address</b>
 
   # Responses
   Ack:

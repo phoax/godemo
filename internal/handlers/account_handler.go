@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"math/big"
+	"regexp"
 
 	middleware "github.com/go-openapi/runtime/middleware"
 	"github.com/phoax/godemo/models"
@@ -36,17 +37,41 @@ func GetNonce(client *ethclient.Client, address string) uint64 {
 	return nonce
 }
 
+/**
+Check Ethereum address validity
+*/
+func IsValidAddress(address string) bool {
+	matched, err := regexp.MatchString("^0x[a-fA-F0-9]{40}$", address)
+	if err != nil {
+		log.Printf("Failed to match address: %v", err)
+	}
+	return matched
+}
+
+// Convert string to ethereum address
+func ConvertToAddress(addressStr string) common.Address {
+	address := common.HexToAddress(addressStr)
+	return address
+}
+
 // Transfer handler
-func AccountTransferHandler() middleware.Responder {
+func AccountTransferHandler(params op.SetTransferParams) middleware.Responder {
+	log.Println("params", params.To.Address)
+	if !IsValidAddress(params.To.Address) {
+		payload := models.Ack{Status: "error", Message: "Invalid address"}
+		return op.NewSetTransferCreated().WithPayload(&payload)
+	}
+
+	fromAddress := apiconfig.GetString("SIGNER_ADDRESS")
+	privateKey, _ := crypto.HexToECDSA(apiconfig.GetString("SIGNER_PRIVATEKEY"))
+	to := common.HexToAddress(params.To.Address)
+
 	// Connect to node
 	client, err := getClient()
 	if err != nil {
 		log.Fatalf("could not create ipc client: %v", err)
 	}
 
-	fromAddress := "0xfdFa0f372a909F33945a4Eb207Fd0Df694D02570"
-	privateKey, _ := crypto.HexToECDSA("df155959a1d1a37caae2087eee40f934eafc0a1f4a7865785f169e5871dbf765")
-	to := common.HexToAddress("0x940a7acD2A11846ba2F5Fc52f68EC69daFe8C550")
 	nonce := GetNonce(client, fromAddress)
 	log.Println("Current Nonce: ", nonce)
 
@@ -100,11 +125,21 @@ func AccountTransferHandler() middleware.Responder {
 	return op.NewSetTransferCreated().WithPayload(&payload)
 }
 
-func AccountBalanceHandler() middleware.Responder {
+/**
+ * Get account balance
+ */
+func AccountBalanceHandler(params op.GetAccountBalanceParams) middleware.Responder {
+	log.Println("params", params.Address)
+	if !IsValidAddress(params.Address) {
+		payload := models.Ack{Status: "error", Message: "Invalid address"}
+		return op.NewSetTransferCreated().WithPayload(&payload)
+	}
+	// ex :0x940a7acD2A11846ba2F5Fc52f68EC69daFe8C550
+	to := common.HexToAddress(params.Address)
+
 	client, err := getClient()
 
 	// ethereum.GetBalance(client)
-	to := common.HexToAddress("0x940a7acD2A11846ba2F5Fc52f68EC69daFe8C550")
 
 	ctx := context.Background()
 	balance, err := client.BalanceAt(ctx, to, nil)

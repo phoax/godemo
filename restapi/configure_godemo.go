@@ -43,20 +43,17 @@ func configureAPI(api *operations.GodemoAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	api.AccountGetAccountBalanceHandler = account.GetAccountBalanceHandlerFunc(func(params account.GetAccountBalanceParams) middleware.Responder {
+		return handlers.AccountBalanceHandler(params)
+	})
 	api.NetworkGetBlockNumberHandler = network.GetBlockNumberHandlerFunc(func(params network.GetBlockNumberParams) middleware.Responder {
 		return handlers.BlockNumberHandler()
 	})
-
 	api.HomepageHomepageHandler = homepage.HomepageHandlerFunc(func(params homepage.HomepageParams) middleware.Responder {
 		return handlers.HomepageHandler()
 	})
-
 	api.AccountSetTransferHandler = account.SetTransferHandlerFunc(func(params account.SetTransferParams) middleware.Responder {
-		return handlers.AccountTransferHandler()
-	})
-
-	api.AccountGetAccountBalanceHandler = account.GetAccountBalanceHandlerFunc(func(params account.GetAccountBalanceParams) middleware.Responder {
-		return handlers.AccountBalanceHandler()
+		return handlers.AccountTransferHandler(params)
 	})
 
 	api.PreServerShutdown = func() {}

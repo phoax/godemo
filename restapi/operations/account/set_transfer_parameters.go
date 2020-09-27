@@ -6,10 +6,14 @@ package account
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+
+	"github.com/phoax/godemo/models"
 )
 
 // NewSetTransferParams creates a new SetTransferParams object
@@ -27,6 +31,12 @@ type SetTransferParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
+
+	/*Transfer to address
+	  Required: true
+	  In: body
+	*/
+	To *models.To
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -38,6 +48,28 @@ func (o *SetTransferParams) BindRequest(r *http.Request, route *middleware.Match
 
 	o.HTTPRequest = r
 
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body models.To
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			if err == io.EOF {
+				res = append(res, errors.Required("to", "body", ""))
+			} else {
+				res = append(res, errors.NewParseError("to", "body", "", err))
+			}
+		} else {
+			// validate body object
+			if err := body.Validate(route.Formats); err != nil {
+				res = append(res, err)
+			}
+
+			if len(res) == 0 {
+				o.To = &body
+			}
+		}
+	} else {
+		res = append(res, errors.Required("to", "body", ""))
+	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
